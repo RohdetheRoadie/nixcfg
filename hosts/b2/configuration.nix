@@ -112,15 +112,7 @@
     ];
   };
 
-  users.users.roadie = {
-    isNormalUser = true;
-    description = "Roadie (main user)";
-    extraGroups = [ "networkmanager" "wheel" ];
-    openssh.authorizedKeys.keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHTwfpc7NLFJqCldm0HUM/ksW1+7hMuAqkaNoaUHld9f sean@DESKTOP-61HUDM2" ];
-    packages = with pkgs; [
-    #  thunderbird
-    ];
-  };
+
   # Install firefox.
   programs.firefox.enable = true;
 

@@ -43,25 +43,30 @@
     LC_TIME = "en_US.UTF-8";
   };
 
-  # # Enable Wayland
-  #   # Enable Plasma 
-  # services = {
-  #   desktopManager.plasma6.enable = true;
-
-  # # Default display manager for Plasma
-  #   displayManager.plasma-login-manager.enable = true;
-
-  # # Optionally enable xserver
-  # # xserver.enable = true;
-  # };
-
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
-  # Enable the XFCE Desktop Environment.
-  services.xserver.displayManager.lightdm.enable = true;
-  services.xserver.desktopManager.xfce.enable = true;
+  # Enable Wayland
+    # Enable Plasma 
+  services.xserver.displayManager.sddm.enable = true;
+  # services.sddm.wayland.enable = true;
+  services.desktopManager.plasma6.enable = true;
+
+  # # Default display manager for Plasma
+  #   displayManager.plasma-login-manager.enable = true;
+
+  # Optionally enable xserver
+  # xserver.enable = true;
+
+
+  # # Enable the X11 windowing system.
+  # services.xserver.enable = true;
+
+# # disabled bedcause trying to get plasma working
+  # # Enable the XFCE Desktop Environment.
+  # services.xserver.displayManager.lightdm.enable = true;
+  # services.xserver.desktopManager.xfce.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {

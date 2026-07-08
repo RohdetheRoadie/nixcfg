@@ -34,10 +34,19 @@
       packages =
         forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
       overlays = import ./overlays { inherit inputs; };
+
       nixosConfigurations = {
         b2 = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs outputs; };
           modules = [ ./hosts/b2 ];
+        };
+        saenger = nixpkgs.lib.nixosSystem {
+          specialArgs = {inherit inputs outputs;};
+          modules = [
+            ./hosts/saenger
+#             inputs.disko.nixosModules.disko
+#             agenix.nixosModules.default
+          ];
         };
       };
       homeConfigurations = {
@@ -45,6 +54,11 @@
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
           extraSpecialArgs = { inherit inputs outputs; };
           modules = [ ./home/roadie/b2.nix ];
+        };
+        "roadie@saenger" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages."x86_64-linux";
+          extraSpecialArgs = { inherit inputs outputs; };
+          modules = [ ./home/roadie/saenger.nix ];
         };
       };
     };

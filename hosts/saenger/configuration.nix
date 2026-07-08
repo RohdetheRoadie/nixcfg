@@ -176,6 +176,8 @@
   # CPU Power Scaling
   services.thermald.enable = true;
 
+  # disabled due to interfering with KDE power management
+/*
   # tlp
   services.tlp = {
     enable = true;
@@ -184,45 +186,45 @@
       CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
 
       CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
-      CPU_ENERGY_PERF_POLICY_ON_AC = "performance"
+      CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
 
       CPU_MIN_PERF_ON_AC = 0;
       CPU_MAX_PERF_ON_AC = 100;
       CPU_MIN_PERF_ON_BAT = 0;
-      CPU_MIN_PERF_ON_BAT = 20;
+      CPU_MAX_PERF_ON_BAT = 20;
 
       # Optional helps save lon term battery health
       START_CHARGE_THRESH_BAT0 = 40; # 40 and below starts to charge
       STOP_CHARGE_THRESH_BAT0 = 80; # 80 and above stop charging
     };
   };
-
+*/
   # Hybrid Graphics
   specialisation = {
-  nvidia.configuration = {
-    # Nvidia Configuration
-    services.xserver.videoDrivers = [ "nvidia" ];
-    hardware.graphics.enable = true;
+    nvidia.configuration = {
+      # Nvidia Configuration
+      services.xserver.videoDrivers = [ "nvidia" ];
+      hardware.graphics.enable = true;
 
-    # Optionally, you may need to select the appropriate driver version for your specific GPU.
-    hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
+      # Optionally, you may need to select the appropriate driver version for your specific GPU.
+      hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
 
-    # nvidia-drm.modeset=1 is required for some wayland compositors, e.g. sway
-    hardware.nvidia.modesetting.enable = true;
+      # nvidia-drm.modeset=1 is required for some wayland compositors, e.g. sway
+      hardware.nvidia.modesetting.enable = true;
 
-    hardware.nvidia.prime = {
-      sync.enable = true;
+      hardware.nvidia.prime = {
+        sync.enable = true;
 
-      # Bus ID of the NVIDIA GPU. You can find it using lspci, either under 3D or VGA
-      nvidiaBusId = "PCI:1:0:0";
-      # 01:00.0 VGA compatible controller: NVIDIA Corporation TU106M [GeForce RTX 2070 Mobile] (rev a1)
+        # Bus ID of the NVIDIA GPU. You can find it using lspci, either under 3D or VGA
+        nvidiaBusId = pkgs.lib.mkForce "PCI:1:0:0";
+        # 01:00.0 VGA compatible controller: NVIDIA Corporation TU106M [GeForce RTX 2070 Mobile] (rev a1)
 
-      # Bus ID of the Intel GPU. You can find it using lspci, either under 3D or VGA
-      intelBusId = "PCI:0:2:0";
-      #00:02.0 VGA compatible controller: Intel Corporation CoffeeLake-H GT2 [UHD Graphics 630]
+        # Bus ID of the Intel GPU. You can find it using lspci, either under 3D or VGA
+        intelBusId = pkgs.lib.mkForce "PCI:0:2:0";
+        # 00:02.0 VGA compatible controller: Intel Corporation CoffeeLake-H GT2 [UHD Graphics 630]
+      };
     };
   };
-};
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];

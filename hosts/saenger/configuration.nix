@@ -79,6 +79,12 @@
     LC_TIME = "en_US.UTF-8";
   };
 
+  # Set sleep time for sleep-then-hibernate
+  systemd.sleep.settings.Sleep = {
+    HibernateDelaySec = "30m";
+    SuspendState = "mem";
+  };
+
   # Enable the X11 windowing system.
   # You can disable this if you're only using the Wayland session.
   services.xserver.enable = true;
@@ -202,6 +208,19 @@
     };
   };
 */
+  # Set max battery charge to 80%
+  systemd.services.clevo-battery-limit = {
+    description = "Set Clevo Battery Charge Limit";
+    after = [ "multi-user.target" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      # Sets charge limit to 80%. Change to 60, 70, 80, or 90.
+      ExecStart = "${pkgs.bash}/bin/bash -c 'echo 80 > /sys/class/power_supply/BAT0/charge_control_end_threshold || true'";
+    };
+  };
+
   # Hybrid Graphics
   
   /* Via specialization

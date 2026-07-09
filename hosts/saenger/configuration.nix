@@ -13,6 +13,7 @@
   # Enable experimental features nix-command and flakes
   nix.settings.experimental-features = "nix-command flakes";
 
+/* This can probably be deleted
   # Enable NVIDIA graphics modules
   hardware.graphics.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
@@ -23,25 +24,25 @@
     intelBusId = "PCI:0@0:2:0";
     nvidiaBusId = "PCI:1@0:0:0";
     # amdgpuBusId = "PCI:5@0:0:0"; # If you have an AMD iGPU
-  };
+  };*/
 
   #Offload mode is to use the iGPU instead of dGPU unless
   # For offloading, `modesetting` is needed additionally,
   # otherwise the X-server will be running permanently on nvidia,
   # thus keeping the GPU always on (see `nvidia-smi`).
-  #services.xserver.videoDrivers = [
-  #  "modesetting"  # example for Intel iGPU; use "amdgpu" here instead if your iGPU is AMD
-  #  "nvidia"
-  #];
+  services.xserver.videoDrivers = [
+    "modesetting"  # example for Intel iGPU; use "amdgpu" here instead if your iGPU is AMD
+    "nvidia"
+  ];
+  hardware.nvidia.open = false;
+  hardware.nvidia.prime = {
+    offload.enable = true;
 
-  #hardware.nvidia.prime = {
-    #offload.enable = true;
-
-    #intelBusId = "PCI:0@0:2:0";
-    #nvidiaBusId = "PCI:1@0:0:0";
-    ## amdgpuBusId = "PCI:5@0:0:0"; # If you have an AMD iGPU
-  #};
-  ##END OF Offload mode
+    intelBusId = "PCI:0@0:2:0";
+    nvidiaBusId = "PCI:1@0:0:0";
+    # amdgpuBusId = "PCI:5@0:0:0"; # If you have an AMD iGPU
+  };
+  #END OF Offload mode
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -143,6 +144,8 @@
     git
     git-crypt
     gh
+    expressvpn
+    lynx
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -171,10 +174,10 @@
 
   # one of "ignore", "poweroff", "reboot", "halt", "kexec", "suspend", "hibernate", "hybrid-sleep", "suspend-then-hibernate", "lock"
 
-  # Power Management
-  powerManagement.enable = true;
-  # CPU Power Scaling
-  services.thermald.enable = true;
+  # # Power Management
+  # powerManagement.enable = true;
+  # # CPU Power Scaling
+  # services.thermald.enable = true;
 
   # disabled due to interfering with KDE power management
 /*
@@ -200,6 +203,8 @@
   };
 */
   # Hybrid Graphics
+  
+  /* Via specialization
   specialisation = {
     nvidia.configuration = {
       # Nvidia Configuration
@@ -216,15 +221,15 @@
         sync.enable = true;
 
         # Bus ID of the NVIDIA GPU. You can find it using lspci, either under 3D or VGA
-        nvidiaBusId = pkgs.lib.mkForce "PCI:1:0:0";
+        nvidiaBusId = "PCI:1@0:0:0";
         # 01:00.0 VGA compatible controller: NVIDIA Corporation TU106M [GeForce RTX 2070 Mobile] (rev a1)
 
         # Bus ID of the Intel GPU. You can find it using lspci, either under 3D or VGA
-        intelBusId = pkgs.lib.mkForce "PCI:0:2:0";
+        intelBusId = "PCI:0@0:2:0";
         # 00:02.0 VGA compatible controller: Intel Corporation CoffeeLake-H GT2 [UHD Graphics 630]
       };
     };
-  };
+  };*/
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];

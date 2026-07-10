@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   imports =
@@ -26,23 +26,23 @@
     # amdgpuBusId = "PCI:5@0:0:0"; # If you have an AMD iGPU
   };*/
 
-  #Offload mode is to use the iGPU instead of dGPU unless
-  # For offloading, `modesetting` is needed additionally,
-  # otherwise the X-server will be running permanently on nvidia,
-  # thus keeping the GPU always on (see `nvidia-smi`).
-  services.xserver.videoDrivers = [
-    "modesetting"  # example for Intel iGPU; use "amdgpu" here instead if your iGPU is AMD
-    "nvidia"
-  ];
-  hardware.nvidia.open = false;
-  hardware.nvidia.prime = {
-    offload.enable = true;
+  # #Offload mode is to use the iGPU instead of dGPU unless
+  # # For offloading, `modesetting` is needed additionally,
+  # # otherwise the X-server will be running permanently on nvidia,
+  # # thus keeping the GPU always on (see `nvidia-smi`).
+  # services.xserver.videoDrivers = [
+  #   "modesetting"  # example for Intel iGPU; use "amdgpu" here instead if your iGPU is AMD
+  #   "nvidia"
+  # ];
+  # hardware.nvidia.open = false;
+  # hardware.nvidia.prime = {
+  #   offload.enable = true;
 
-    intelBusId = "PCI:0@0:2:0";
-    nvidiaBusId = "PCI:1@0:0:0";
-    # amdgpuBusId = "PCI:5@0:0:0"; # If you have an AMD iGPU
-  };
-  #END OF Offload mode
+  #   intelBusId = "PCI:0@0:2:0";
+  #   nvidiaBusId = "PCI:1@0:0:0";
+  #   # amdgpuBusId = "PCI:5@0:0:0"; # If you have an AMD iGPU
+  # };
+  # #END OF Offload mode
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -89,9 +89,16 @@
   # You can disable this if you're only using the Wayland session.
   services.xserver.enable = true;
 
-  # Enable the KDE Plasma Desktop Environment.
-  services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
+  # # Enable the KDE Plasma Desktop Environment.
+  # services.displayManager.sddm.enable = true;
+  # services.desktopManager.plasma6.enable = true;
+
+  #enable hyprland
+  programs.hyprland.enable = true; # enable Hyprland
+
+  # Optional, hint Electron apps to use Wayland:
+  # environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  # End of Hyprland
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -152,6 +159,7 @@
     gh
     expressvpn
     lynx
+    kitty
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -208,18 +216,18 @@
     };
   };
 */
-  # Set max battery charge to 80%
-  systemd.services.clevo-battery-limit = {
-    description = "Set Clevo Battery Charge Limit";
-    after = [ "multi-user.target" ];
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-      # Sets charge limit to 80%. Change to 60, 70, 80, or 90.
-      ExecStart = "${pkgs.bash}/bin/bash -c 'echo 80 > /sys/class/power_supply/BAT0/charge_control_end_threshold || true'";
-    };
-  };
+  # # Set max battery charge to 80%
+  # systemd.services.clevo-battery-limit = {
+  #   description = "Set Clevo Battery Charge Limit";
+  #   after = [ "multi-user.target" ];
+  #   wantedBy = [ "multi-user.target" ];
+  #   serviceConfig = {
+  #     Type = "oneshot";
+  #     RemainAfterExit = true;
+  #     # Sets charge limit to 80%. Change to 60, 70, 80, or 90.
+  #     ExecStart = "${pkgs.bash}/bin/bash -c 'echo 80 > /sys/class/power_supply/BAT0/charge_control_end_threshold || true'";
+  #   };
+  # };
 
   # Hybrid Graphics
   

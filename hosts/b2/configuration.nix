@@ -49,7 +49,7 @@
 
   # Enable Wayland
     # Enable Plasma 
-  services.xserver.displayManager.sddm.enable = true;
+  services.displayManager.sddm.enable = true;
   # services.sddm.wayland.enable = true;
   services.desktopManager.plasma6.enable = true;
 

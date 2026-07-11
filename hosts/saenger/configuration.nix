@@ -13,12 +13,13 @@
   # Enable experimental features nix-command and flakes
   nix.settings.experimental-features = "nix-command flakes";
 
-/* This can probably be deleted
+
   # Enable NVIDIA graphics modules
   hardware.graphics.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia.open = false;
-
+  
+/* # This can probably be deleted
   #PRIME hybrid graphics setup
   hardware.nvidia.prime = {
     intelBusId = "PCI:0@0:2:0";
@@ -127,18 +128,7 @@
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
-/*
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.roadie = {
-    isNormalUser = true;
-    description = "Sean Rohde";
-    extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-      kdePackages.kate
-    #  thunderbird
-    ];
-  };
-*/
+
   # Install firefox.
   programs.firefox.enable = true;
 

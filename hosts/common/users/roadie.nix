@@ -23,7 +23,7 @@
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHTwfpc7NLFJqCldm0HUM/ksW1+7hMuAqkaNoaUHld9f roadie@b2"
     ];
-    packages = [inputs.home-manager.packages.${pkgs.system}.default];
+    packages = [inputs.home-manager.packages.${pkgs.stdenv.hostPlatform.system}.default];
   };
   home-manager.users.roadie =
     import ../../../home/roadie/${config.networking.hostName}.nix;

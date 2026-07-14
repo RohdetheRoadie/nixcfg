@@ -101,6 +101,7 @@
   # environment.sessionVariables.NIXOS_OZONE_WL = "1";
   # End of Hyprland
 
+  programs.fish.enable = true;
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";

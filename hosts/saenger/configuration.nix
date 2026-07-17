@@ -18,6 +18,9 @@
   hardware.graphics.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia.open = false;
+  # nvidia-drm.modeset=1 is required for some wayland compositors, e.g. sway
+  hardware.nvidia.modesetting.enable = true;
+
   
 /* # This can probably be deleted
   #PRIME hybrid graphics setup
@@ -97,6 +100,26 @@
   #enable hyprland
   programs.hyprland.enable = true; # enable Hyprland
 
+  # Enable Niri
+  programs.niri.enable = true;
+
+  services.greetd = {
+    enable = true;
+    settings = {
+      default_session = {
+        command = "${config.programs.niri.package}/bin/niri-session";
+        user = "myuser";
+      };
+    };
+  };
+
+  systemd.user.services.niri.enableDefaultPath = false;
+  security.polkit.enable = true; # polkit
+  services.gnome.gnome-keyring.enable = true; # secret service
+  security.pam.services.swaylock = {};
+
+  programs.waybar.enable = true; #top bar
+
   # Optional, hint Electron apps to use Wayland:
   # environment.sessionVariables.NIXOS_OZONE_WL = "1";
   # End of Hyprland
@@ -151,6 +174,13 @@
     expressvpn
     lynx
     kitty
+    # for niri
+    niri
+    alacritty
+    fuzzel
+    swaylock
+    mako
+    swayidle
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

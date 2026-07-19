@@ -118,7 +118,12 @@
   services.gnome.gnome-keyring.enable = true; # secret service
   security.pam.services.swaylock = {};
 
-  programs.waybar.enable = true; #top bar
+  programs.waybar.enable = true; #top bar  
+  
+  # Noctalia
+  hardware.bluetooth.enable = true;
+  services.tuned.enable = true;
+  services.upower.enable = true;
 
   # Optional, hint Electron apps to use Wayland:
   # environment.sessionVariables.NIXOS_OZONE_WL = "1";
@@ -181,6 +186,7 @@
     swaylock
     mako
     swayidle
+    noctalia-shell
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

@@ -17,6 +17,10 @@
     };
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.11";
+    noctalia = {
+      url = "github:noctalia-dev/noctalia";
+      # inputs.pkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, home-manager, nixpkgs, ... }@inputs:

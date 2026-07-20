@@ -186,7 +186,9 @@
     swaylock
     mako
     swayidle
-    noctalia-shell
+
+    # From inputs
+    inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

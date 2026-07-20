@@ -94,7 +94,7 @@
   services.xserver.enable = true;
 
   # # Enable the KDE Plasma Desktop Environment.
-  # services.displayManager.sddm.enable = true;
+  services.displayManager.sddm.enable = true; 
   # services.desktopManager.plasma6.enable = true;
 
   #enable hyprland
@@ -105,22 +105,22 @@
     enable = true;
   };
 
-  services.greetd = {
-    enable = true;
-    settings = {
-      default_session = {
-        command = "${config.programs.niri.package}/bin/niri-session";
-        user = "myuser";
-      };
-    };
-  };
+  # services.greetd = {
+  #   enable = true;
+  #   settings = {
+  #     default_session = {
+  #       command = "${config.programs.niri.package}/bin/niri-session";
+  #       user = "myuser";
+  #     };
+  #   };
+  # };
 
   systemd.user.services.niri.enableDefaultPath = false;
   security.polkit.enable = true; # polkit
   services.gnome.gnome-keyring.enable = true; # secret service
   security.pam.services.swaylock = {};
 
-  programs.waybar.enable = true; #top bar  
+  # programs.waybar.enable = true; #top bar  
   
   # Noctalia
   hardware.bluetooth.enable = true;
@@ -128,7 +128,7 @@
   services.upower.enable = true;
 
   # Optional, hint Electron apps to use Wayland:
-  # environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
   # End of Hyprland
 
   programs.fish.enable = true;

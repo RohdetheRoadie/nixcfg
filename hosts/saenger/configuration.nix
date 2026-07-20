@@ -101,7 +101,9 @@
   programs.hyprland.enable = true; # enable Hyprland
 
   # Enable Niri
-  programs.niri.enable = true;
+  programs.niri = {
+    enable = true;
+  };
 
   services.greetd = {
     enable = true;

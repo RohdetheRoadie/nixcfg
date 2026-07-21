@@ -21,6 +21,7 @@
   hardware.nvidia.open = false;
   # nvidia-drm.modeset=1 is required for some wayland compositors, e.g. sway
   hardware.nvidia.modesetting.enable = true;
+  boot.kernelParams = [ "nvidia_drm.modeset=1" "nvidia_drm.fbdev=1" ];
 
   
 /* # This can probably be deleted
@@ -246,10 +247,10 @@
 
   # one of "ignore", "poweroff", "reboot", "halt", "kexec", "suspend", "hibernate", "hybrid-sleep", "suspend-then-hibernate", "lock"
 
-  # # Power Management
-  # powerManagement.enable = true;
-  # # CPU Power Scaling
-  # services.thermald.enable = true;
+  # Power Management
+  powerManagement.enable = true;
+  # CPU Power Scaling
+  services.thermald.enable = true;
 
   # disabled due to interfering with KDE power management
 /*
@@ -274,18 +275,18 @@
     };
   };
 */
-  # # Set max battery charge to 80%
-  # systemd.services.clevo-battery-limit = {
-  #   description = "Set Clevo Battery Charge Limit";
-  #   after = [ "multi-user.target" ];
-  #   wantedBy = [ "multi-user.target" ];
-  #   serviceConfig = {
-  #     Type = "oneshot";
-  #     RemainAfterExit = true;
-  #     # Sets charge limit to 80%. Change to 60, 70, 80, or 90.
-  #     ExecStart = "${pkgs.bash}/bin/bash -c 'echo 80 > /sys/class/power_supply/BAT0/charge_control_end_threshold || true'";
-  #   };
-  # };
+  # Set max battery charge to 80%
+  systemd.services.clevo-battery-limit = {
+    description = "Set Clevo Battery Charge Limit";
+    after = [ "multi-user.target" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      # Sets charge limit to 80%. Change to 60, 70, 80, or 90.
+      ExecStart = "${pkgs.bash}/bin/bash -c 'echo 80 > /sys/class/power_supply/BAT0/charge_control_end_threshold || true'";
+    };
+  };
 
   # Hybrid Graphics
   

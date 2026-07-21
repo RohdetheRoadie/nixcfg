@@ -23,6 +23,9 @@
   # environment.
   home.packages = with pkgs; [
     cowsay
+    alacritty
+    neovim
+    codium
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
@@ -72,7 +75,8 @@
   #  /etc/profiles/per-user/m3tam3re/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
-    # EDITOR = "emacs";
+    EDITOR = "nvim";
+    VISUAL = "codium";
   };
 
   # Let Home Manager install and manage itself.

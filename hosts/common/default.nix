@@ -1,6 +1,12 @@
 # Common configuration for all hosts
 
-{ pkgs, lib, inputs, outputs, ... }: {
+{ 
+  pkgs, 
+  lib, 
+  inputs, 
+  outputs, 
+  ... 
+}: {
   imports = [ 
     ./users 
     inputs.home-manager.nixosModules.home-manager

@@ -1,12 +1,14 @@
-{ config, ... }: { imports = [ 
+{ imports = [ 
+  ../common 
   ./home.nix 
   ../features/cli
-  ../common 
   ]; 
 
   features = {
     cli = {
       fish.enable = true;
+      fzf.enable = true;
+      fastfetch.enable = true;
     };
   };
 

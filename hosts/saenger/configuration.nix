@@ -208,6 +208,7 @@
     expressvpn
     lynx
     kitty
+    qemu #for virtualization/troubleshooting
     # for niri
     niri
     alacritty
@@ -325,9 +326,13 @@
 
   # QEMU Virtualization settings
   virtualisation.vmVariant = {
-    virtualisation.forwardPorts = [
-      { from = "host"; host.port = 2222; guest.port = 22; }
-    ];
+    virtualisation = {
+      memorySize = 4096; #MB
+      cores = 2;
+      forwardPorts = [
+        { from = "host"; host.port = 2222; guest.port = 22; }
+      ];
+    };
   };
 
   # This value determines the NixOS release from which the default

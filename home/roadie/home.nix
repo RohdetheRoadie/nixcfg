@@ -78,6 +78,15 @@
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
+  # set cursor
+  home.pointerCursor = {
+    name = "Bibata-Modern-Ice";
+    package = pkgs.bibata-cursors;
+    size = 24;
+    gtk.enable = true;
+    x11.enable = true;
+  };
+
   # # For Noctalia
   # home-manager.users.roadie = {
   #   imports = [

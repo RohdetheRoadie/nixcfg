@@ -213,6 +213,7 @@
     swaylock
     mako
     swayidle
+    xwayland-satellite
 
     # From inputs
     inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default

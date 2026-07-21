@@ -19,7 +19,11 @@
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.11";
     noctalia = {
       url = "github:noctalia-dev/noctalia";
-      # inputs.pkgs.follows = "nixpkgs";
+      inputs.pkgs.follows = "nixpkgs";
+    };
+    noctalia-greeter = {
+      url = "github:noctalia-dev/noctalia-greeter";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 

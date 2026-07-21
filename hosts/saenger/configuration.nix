@@ -146,6 +146,7 @@
   
   # Noctalia
   hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = false;
   services.tuned.enable = true;
   services.upower.enable = true;
   #needed for greetd

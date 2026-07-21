@@ -2,7 +2,7 @@
 # 
 # home-manager init ./
 
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
 {
   # Home Manager needs a bit of information about you and the paths it should
@@ -77,4 +77,38 @@
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+
+  # set cursor
+  home.pointerCursor = {
+    name = "Bibata-Modern-Ice";
+    package = pkgs.bibata-cursors;
+    size = 24;
+    gtk.enable = true;
+    x11.enable = true;
+  };
+
+  # # For Noctalia
+  # home-manager.users.roadie = {
+  #   imports = [
+  #     inputs.noctalia.homeModules.default
+  #   ];
+
+  #   programs.noctalia = {
+  #     enable = true;
+
+  #     settings = { # This may also be a string or path to a .toml file.
+  #       theme = {
+  #         mode = "dark";
+  #         source = "builtin";
+  #         builtin = "Catppuccin";
+  #       };
+
+  #       wallpaper = {
+  #         enabled = true;
+  #         default.path = "/path/to/wallpapers/wallpaper.png";
+  #       };
+  #     };
+  #   };
+  # };
+  # #end Noctalia
 }

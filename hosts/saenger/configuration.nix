@@ -8,6 +8,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      inputs.noctalia-greeter.nixosModules.default
     ];
 
   # Enable experimental features nix-command and flakes
@@ -18,6 +19,9 @@
   hardware.graphics.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia.open = false;
+  # nvidia-drm.modeset=1 is required for some wayland compositors, e.g. sway
+  hardware.nvidia.modesetting.enable = true;
+
   
 /* # This can probably be deleted
   #PRIME hybrid graphics setup
@@ -88,19 +92,72 @@
 
   # Enable the X11 windowing system.
   # You can disable this if you're only using the Wayland session.
-  services.xserver.enable = true;
+  # services.xserver.enable = true;
 
-  # # Enable the KDE Plasma Desktop Environment.
-  # services.displayManager.sddm.enable = true;
-  # services.desktopManager.plasma6.enable = true;
+  # # # Enable the KDE Plasma Desktop Environment.
+  # services.displayManager.sddm.wayland.enable = true;
+  # services.displayManager.sddm.enable = true; 
+  # # services.desktopManager.plasma6.enable = true;
+
+  # Enable Gnome desktop environment
+  # services.displayManager.gdm.enable = true;
 
   #enable hyprland
-  programs.hyprland.enable = true; # enable Hyprland
+  # programs.hyprland.enable = true; # enable Hyprland
+
+  # Enable Niri
+  programs.niri = {
+    enable = true;
+  };
+  # boot.kernelParams = [ "psmouse.synaptics_intertouch=0" ];
+  # boot.blacklistedKernelModules = [ "psmouse" ];
+  programs.noctalia-greeter = {
+    enable = true;
+    # Optional configuration
+    greeter-args = "";
+    settings = {
+      cursor = {
+        theme = "Bibata-Modern-Ice";
+        size = 24;
+        path = "${pkgs.bibata-cursors}/share/icons";
+      };
+      keyboard = {
+        layout = "us";
+      };
+    };
+  };
+
+  services.greetd = {
+    enable = true;
+    settings = {
+      default_session = {
+        command = "noctalia-greeter-compositor";
+        user = "roadie";
+      };
+    };
+  };
+
+  systemd.user.services.niri.enableDefaultPath = false;
+  security.polkit.enable = true; # polkit
+  # services.gnome.gnome-keyring.enable = true; # secret service
+  security.pam.services.swaylock = {};
+
+  # programs.waybar.enable = true; #top bar  
+  
+  # Noctalia
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = false;
+  services.tuned.enable = true;
+  services.upower.enable = true;
+  #needed for greetd
+  services.dbus.enable = true;
+  # programs.noctalia.systemd.enable = true;# Doesn't work
 
   # Optional, hint Electron apps to use Wayland:
-  # environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
   # End of Hyprland
 
+  programs.fish.enable = true;
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";
@@ -150,6 +207,17 @@
     expressvpn
     lynx
     kitty
+    # for niri
+    niri
+    alacritty
+    fuzzel
+    swaylock
+    mako
+    swayidle
+    xwayland-satellite
+
+    # From inputs
+    inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

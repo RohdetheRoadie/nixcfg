@@ -104,7 +104,7 @@
   # services.displayManager.gdm.enable = true;
 
   #enable hyprland
-  # programs.hyprland.enable = true; # enable Hyprland
+  programs.hyprland.enable = true; # enable Hyprland
 
   # Enable Niri
   programs.niri = {
@@ -112,31 +112,31 @@
   };
   # boot.kernelParams = [ "psmouse.synaptics_intertouch=0" ];
   # boot.blacklistedKernelModules = [ "psmouse" ];
-  programs.noctalia-greeter = {
-    enable = true;
-    # Optional configuration
-    greeter-args = "";
-    settings = {
-      cursor = {
-        theme = "Bibata-Modern-Ice";
-        size = 24;
-        path = "${pkgs.bibata-cursors}/share/icons";
-      };
-      keyboard = {
-        layout = "us";
-      };
-    };
-  };
+  # programs.noctalia-greeter = {
+  #   enable = true;
+  #   # Optional configuration
+  #   greeter-args = "";
+  #   settings = {
+  #     cursor = {
+  #       theme = "Bibata-Modern-Ice";
+  #       size = 24;
+  #       path = "${pkgs.bibata-cursors}/share/icons";
+  #     };
+  #     keyboard = {
+  #       layout = "us";
+  #     };
+  #   };
+  # };
 
-  services.greetd = {
-    enable = true;
-    settings = {
-      default_session = {
-        command = "noctalia-greeter-compositor";
-        user = "roadie";
-      };
-    };
-  };
+  # services.greetd = {
+  #   enable = true;
+  #   settings = {
+  #     default_session = {
+  #       command = "noctalia-greeter-compositor";
+  #       user = "roadie";
+  #     };
+  #   };
+  # };
 
   systemd.user.services.niri.enableDefaultPath = false;
   security.polkit.enable = true; # polkit
@@ -326,11 +326,16 @@
 
   # QEMU Virtualization settings
   virtualisation.vmVariant = {
+    services.xserver.videoDrivers = [ "virtio" ];
     virtualisation = {
       memorySize = 4096; #MB
       cores = 2;
       forwardPorts = [
         { from = "host"; host.port = 2222; guest.port = 22; }
+      ];
+      qemu.options = [
+        "-device virtio-vga-gl"
+        "-display gtk,gl=on"
       ];
     };
   };

@@ -13,7 +13,7 @@
     };
     desktop = {
       wayland.enable = true;
-      hyprland.enable = false;
+      hyprland.enable = true;
     };
   };
 

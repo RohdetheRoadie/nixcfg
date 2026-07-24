@@ -12,8 +12,8 @@
       fastfetch.enable = true;
     };
     desktop = {
-      wayland.enable = true;
       hyprland.enable = true;
+      wayland.enable = true;
     };
   };
   wayland.windowManager.hyprland = {

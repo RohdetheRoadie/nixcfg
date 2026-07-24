@@ -104,7 +104,10 @@
   # services.displayManager.gdm.enable = true;
 
   #enable hyprland
-  programs.hyprland.enable = true; # enable Hyprland
+  programs.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+  };
 
   # Enable Niri
   programs.niri = {

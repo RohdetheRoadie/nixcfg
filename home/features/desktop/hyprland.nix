@@ -11,7 +11,7 @@ in {
   config = mkIf cfg.enable {
     wayland.windowManager.hyprland = {
       enable = true;
-      configType = "lua";
+      configType = "hyprlang";
       settings = {
         xwayland = {
           force_zero_scaling = true;

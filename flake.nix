@@ -25,9 +25,20 @@
       url = "github:noctalia-dev/noctalia-greeter";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    dotfiles = {
+      url = "git+https://code.m3ta.dev/m3tam3re/dotfiles-flake-demo.git";
+      flake = false;
+    };
   };
 
-  outputs = { self, home-manager, nixpkgs, ... }@inputs:
+  outputs = { 
+    self, 
+    dotfiles,
+    home-manager, 
+    nixpkgs, 
+    ... 
+  } @ inputs:
     let
       inherit (self) outputs;
       systems = [

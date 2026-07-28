@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "dotfiles": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1726139078,
+        "narHash": "sha256-FiyYP/hTiSOkj99P1YcIxc9uJjjInpMPAp6fKtZlkNs=",
+        "ref": "refs/heads/master",
+        "rev": "d9f3a3ba9d8430306a4f6f7e9fd3ad618d274c8e",
+        "revCount": 2,
+        "type": "git",
+        "url": "https://code.m3ta.dev/m3tam3re/dotfiles-flake-demo.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://code.m3ta.dev/m3tam3re/dotfiles-flake-demo.git"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -105,6 +121,7 @@
     },
     "root": {
       "inputs": {
+        "dotfiles": "dotfiles",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
         "nixpkgs-stable": "nixpkgs-stable",

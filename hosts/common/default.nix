@@ -59,5 +59,5 @@
       ((lib.filterAttrs (_: lib.isType "flake")) inputs);
     nixPath = [ "/etc/nix/path" ];
   };
-  users.defaultUserShell = pkgs.fish;
+  # users.defaultUserShell = pkgs.fish; # Caused errors for B2
 }

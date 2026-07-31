@@ -221,10 +221,12 @@
     swayidle
     xwayland-satellite
 
+    dnsmasq #virtual networking
+    
     # From inputs
     inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
-
+  
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
@@ -326,7 +328,12 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
-
+  # Install virt-manager
+  virtualisation.libvirtd.enable = true;
+  programs.virt-manager.enable = true;
+  networking.firewall.trustedInterfaces = [ "virbr0" ]; # Virtual network firewall exception
+  services.qemuGuest.enable = true;
+  services.spice-vdagentd.enable = true; # enable copy-paste between host/guest
   # QEMU Virtualization settings
   virtualisation.vmVariant = {
     services.xserver.videoDrivers = [ "virtio" ];
@@ -342,6 +349,7 @@
       ];
     };
   };
+  users.defaultUserShell = pkgs.fish;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

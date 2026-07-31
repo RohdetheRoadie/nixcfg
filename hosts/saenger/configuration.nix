@@ -16,7 +16,10 @@
 
 
   # Enable NVIDIA graphics modules
-  hardware.graphics.enable = true;
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+  };
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia.open = false;
   # nvidia-drm.modeset=1 is required for some wayland compositors, e.g. sway
@@ -329,7 +332,25 @@
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
   # Install virt-manager
-  virtualisation.libvirtd.enable = true;
+  virtualisation.libvirtd = {
+    enable = true;
+    qemu = {
+      package = pkgs.qemu.override {
+        # This ensures QEMU wraps the NixOS driver runpath
+        # which exposes the host Nvidia EGL/GL libraries to QEMU
+        smbdSupport = true; 
+      };
+      # Force QEMU to use your host's render node
+      verbatimConfig = ''
+        cgroup_device_acl = [
+            "/dev/null", "/dev/full", "/dev/zero",
+            "/dev/random", "/dev/urandom",
+            "/dev/ptmx", "/dev/kvm",
+            "/dev/dri/renderD128"
+        ]
+      '';
+    };
+  };
   programs.virt-manager.enable = true;
   networking.firewall.trustedInterfaces = [ "virbr0" ]; # Virtual network firewall exception
   services.qemuGuest.enable = true;

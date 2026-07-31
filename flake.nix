@@ -26,6 +26,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     dotfiles = {
       url = "git+https://code.m3ta.dev/m3tam3re/dotfiles-flake-demo.git";
       flake = false;
@@ -34,6 +39,7 @@
 
   outputs = { 
     self, 
+    disko,
     dotfiles,
     home-manager, 
     nixpkgs, 
@@ -63,7 +69,7 @@
           specialArgs = {inherit inputs outputs;};
           modules = [
             ./hosts/saenger
-#             inputs.disko.nixosModules.disko
+            inputs.disko.nixosModules.disko
 #             agenix.nixosModules.default
           ];
         };

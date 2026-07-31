@@ -2,11 +2,12 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, inputs, lib, ... }:
 
 {
   imports =
     [ # Include the results of the hardware scan.
+      ./disko-config.nix
       ./hardware-configuration.nix
       inputs.noctalia-greeter.nixosModules.default
     ];
@@ -327,6 +328,18 @@
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
+  # Reserve 20% RAM for zram
+  zramSwap = {
+    enable = true;
+    priority = 25;
+    memoryPercent = 10;
+  };
+  # Reserve 40G Swap file for hibernation
+  swapDevices = [ {
+    device = "/var/lib/swapfile";
+    size = 40 * 1024; # Size in MB
+    priority = 1;
+  } ];
   # QEMU Virtualization settings
   virtualisation.vmVariant = {
     services.xserver.videoDrivers = [ "virtio" ];
@@ -340,8 +353,10 @@
         "-device virtio-vga-gl"
         "-display gtk,gl=on,grab-on-hover=on"
       ];
+      swapDevices = lib.mkForce [];
     };
   };
+  users.defaultUserShell = pkgs.fish; # Makes fish default shell for all users
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

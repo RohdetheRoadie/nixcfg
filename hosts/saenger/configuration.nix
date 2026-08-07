@@ -335,22 +335,28 @@
   virtualisation.libvirtd = {
     enable = true;
     qemu = {
-      package = pkgs.qemu.override {
-        # This ensures QEMU wraps the NixOS driver runpath
-        # which exposes the host Nvidia EGL/GL libraries to QEMU
-        smbdSupport = true; 
-      };
-      # Force QEMU to use your host's render node
+      package = pkgs.qemu_kvm;
+      runAsRoot = false;
       verbatimConfig = ''
         cgroup_device_acl = [
-            "/dev/null", "/dev/full", "/dev/zero",
-            "/dev/random", "/dev/urandom",
-            "/dev/ptmx", "/dev/kvm",
-            "/dev/dri/renderD128"
+          "/dev/null", "/dev/full", "/dev/zero",
+          "/dev/random", "/dev/urandom",
+          "/dev/ptmx", "/dev/kvm",
+          "/dev/dri/renderD128",
+          "/dev/dri/card0"
         ]
       '';
-    };
+      };
   };
+  # #disabled to TS virt-manager
+  # systemd.services.libvirtd.environment = {
+  #   WLR_NO_HARDWARE_CURSORS = "1";
+  #   GBM_BACKEND = "nvidia-drm";
+  #   __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+  #   LD_LIBRARY_PATH = "/run/opengl-driver/lib:/run/opengl-driver-32/lib";
+  # };
+  # systemd.libvertd.path = [ pkgs.nvidia-vaapi-driver ];
+
   programs.virt-manager.enable = true;
   networking.firewall.trustedInterfaces = [ "virbr0" ]; # Virtual network firewall exception
   services.qemuGuest.enable = true;

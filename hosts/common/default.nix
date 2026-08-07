@@ -59,5 +59,5 @@
       ((lib.filterAttrs (_: lib.isType "flake")) inputs);
     nixPath = [ "/etc/nix/path" ];
   };
-  # users.defaultUserShell = pkgs.fish; #Makes fish default shell.  Decide if all hosts need.
+  #users.defaultUserShell = pkgs.fish; #Makes fish default shell.  Decide if all hosts need. Caused errors for B2
 }

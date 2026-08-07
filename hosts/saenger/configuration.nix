@@ -17,7 +17,10 @@
 
 
   # Enable NVIDIA graphics modules
-  hardware.graphics.enable = true;
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+  };
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia.open = false;
   # nvidia-drm.modeset=1 is required for some wayland compositors, e.g. sway
@@ -222,10 +225,12 @@
     swayidle
     xwayland-satellite
 
+    dnsmasq #virtual networking
+    
     # From inputs
     inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
-
+  
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
@@ -327,6 +332,31 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
+  # Install virt-manager
+  virtualisation.libvirtd = {
+    enable = true;
+    qemu = {
+      package = pkgs.qemu_kvm;
+      runAsRoot = false;
+      verbatimConfig = ''
+        cgroup_device_acl = [
+          "/dev/null", "/dev/full", "/dev/zero",
+          "/dev/random", "/dev/urandom",
+          "/dev/ptmx", "/dev/kvm",
+          "/dev/dri/renderD128",
+          "/dev/dri/card0"
+        ]
+      '';
+      };
+  };
+  # #disabled to TS virt-manager
+  # systemd.services.libvirtd.environment = {
+  #   WLR_NO_HARDWARE_CURSORS = "1";
+  #   GBM_BACKEND = "nvidia-drm";
+  #   __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+  #   LD_LIBRARY_PATH = "/run/opengl-driver/lib:/run/opengl-driver-32/lib";
+  # };
+  # systemd.libvertd.path = [ pkgs.nvidia-vaapi-driver ];
 
   # Reserve 20% RAM for zram
   zramSwap = {
@@ -340,6 +370,10 @@
     size = 40 * 1024; # Size in MB
     priority = 1;
   } ];
+  programs.virt-manager.enable = true;
+  networking.firewall.trustedInterfaces = [ "virbr0" ]; # Virtual network firewall exception
+  services.qemuGuest.enable = true;
+  services.spice-vdagentd.enable = true; # enable copy-paste between host/guest
   # QEMU Virtualization settings
   virtualisation.vmVariant = {
     services.xserver.videoDrivers = [ "virtio" ];

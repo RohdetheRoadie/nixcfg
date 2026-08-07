@@ -19,6 +19,7 @@
       "input"
       "kvm"
       "qemu-libvirtd"
+      "render"
     ];
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHTwfpc7NLFJqCldm0HUM/ksW1+7hMuAqkaNoaUHld9f roadie@b2"

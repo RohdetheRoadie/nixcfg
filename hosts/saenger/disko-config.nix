@@ -18,7 +18,7 @@
               name = "ESP";
               start = "1MiB";
               end = "1024MiB";
-              bootable = true;
+              # bootable = true; #No longer used
               content = {
                 type = "filesystem";
                 format = "vfat";

@@ -16,8 +16,8 @@
             #Try this out to make bootable (VM didn't like the other way)
             ESP = {
               name = "ESP";
-              start = "1MiB";
-              end = "1024MiB";
+              size = "1G";
+              type = "EF00";
               # bootable = true; #No longer used
               content = {
                 type = "filesystem";

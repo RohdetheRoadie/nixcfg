@@ -358,18 +358,18 @@
   # };
   # systemd.libvertd.path = [ pkgs.nvidia-vaapi-driver ];
 
-  # Reserve 20% RAM for zram
+  # # Reserve 20% RAM for zram comment this out for VM testing
   zramSwap = {
     enable = true;
     priority = 25;
     memoryPercent = 10;
   };
-  # Reserve 40G Swap file for hibernation
-  swapDevices = [ {
-    device = "/var/lib/swapfile";
-    size = 40 * 1024; # Size in MB
-    priority = 1;
-  } ];
+  # # Reserve 40G Swap file for hibernation
+  # swapDevices = [ {
+  #   device = "/var/lib/swapfile";
+  #   size = 40 * 1024; # Size in MB
+  #   priority = 1;
+  # } ];
   programs.virt-manager.enable = true;
   networking.firewall.trustedInterfaces = [ "virbr0" ]; # Virtual network firewall exception
   services.qemuGuest.enable = true;

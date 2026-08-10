@@ -10,6 +10,11 @@
     Please also check out the starter configs mentioned above.
   '';
 
+  # add cachix for noctalia
+  nixConfig = {
+    extra-substituters = [ "https://noctalia.cachix.org" ];
+    extra-trusted-public-keys = [ "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4=" ];
+  };
   inputs = {
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -18,7 +23,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.11";
     noctalia = {
-      url = "github:noctalia-dev/noctalia";
+      url = "github:noctalia-dev/noctalia/cachix";  #/cachix for the binary cache
       # inputs.pkgs.follows = "nixpkgs";
     };
     noctalia-greeter = {

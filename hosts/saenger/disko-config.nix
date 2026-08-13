@@ -1,11 +1,11 @@
+## This one should work for NVME
 # {
 #   disko.devices = {
 #     disk = {
 #       nixos = {
+#         # SSD hardware identifier use /dev/sda for hdd
+#         device = "/dev/nvme0n1"; #Enable for HDD/disable for VM
 #         type = "disk";
-#         # SSD hardware identifier
-#         # device = "/dev/nvme0n1"; #Enable for HDD/disable for VM
-#         device = "/dev/vda"; # This is for building on VM
 #         content = {
 #           type = "gpt";
 #           partitions = {
@@ -15,15 +15,13 @@
 #             # };
 #             #Try this out to make bootable (VM didn't like the other way)
 #             ESP = {
-#               name = "ESP";
-#               size = "1G";
+#               size = "512M";
 #               type = "EF00";
-#               # bootable = true; #No longer used
 #               content = {
 #                 type = "filesystem";
 #                 format = "vfat";
 #                 mountpoint = "/boot";
-#                 mountOptions = [ "fmask=0077" "dmask=0077" ];
+#                 mountOptions = [ "umask=0077" ];
 #               };
 #             };
 #             root = {
@@ -40,6 +38,8 @@
 #     };
 #   };
 # }
+
+# This one works for VM
 {
   disko.devices = {
     disk = {

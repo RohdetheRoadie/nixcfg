@@ -374,6 +374,16 @@
   networking.firewall.trustedInterfaces = [ "virbr0" ]; # Virtual network firewall exception
   services.qemuGuest.enable = true;
   services.spice-vdagentd.enable = true; # enable copy-paste between host/guest
+  # Needed for disko to work in vm
+  boot.initrd.availableKernelModules = [ 
+    "virtio_pci" 
+    "virtio_blk" 
+    "virtio_scsi" 
+    "virtio_balloon" 
+    "virtio_console" 
+    "virtio_net"
+  ];
+
   # QEMU Virtualization settings
   virtualisation.vmVariant = {
     services.xserver.videoDrivers = [ "virtio" ];

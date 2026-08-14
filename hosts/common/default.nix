@@ -8,6 +8,7 @@
   ... 
 }: {
   imports = [ 
+    ./extra-services
     ./users 
     inputs.home-manager.nixosModules.home-manager
   ];

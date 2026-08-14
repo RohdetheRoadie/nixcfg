@@ -78,6 +78,13 @@
 #             agenix.nixosModules.default
           ];
         };
+        saenger-vm = nixpkgs.lib.nixosSystem {
+          specialArgs = {inherit inputs outputs;};
+          modules = [
+            ./hosts/saenger
+            inputs.disko.nixosModules.disko
+          ];
+        };
       };
       homeConfigurations = {
         "roadie@b2" = home-manager.lib.homeManagerConfiguration {

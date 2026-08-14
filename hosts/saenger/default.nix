@@ -38,4 +38,6 @@
 
 {
   imports = [ ../common ./configuration.nix ];
+
+  extra-services.podman.enable = true;
 }

@@ -23,6 +23,7 @@
     ];
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHTwfpc7NLFJqCldm0HUM/ksW1+7hMuAqkaNoaUHld9f roadie@b2"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID+eJBSgmo47+k0fsMoU6s2/cVq2KUOTzIlz1M2Vvs5C saenger_iron"
     ];
     packages = [inputs.home-manager.packages.${pkgs.stdenv.hostPlatform.system}.default];
   };

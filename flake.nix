@@ -31,6 +31,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    agenix = { url = "github:ryantm/agenix";};
+
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -44,6 +46,7 @@
 
   outputs = { 
     self, 
+    agenix, 
     disko,
     dotfiles,
     home-manager, 
@@ -83,6 +86,7 @@
           modules = [
             ./hosts/saenger
             inputs.disko.nixosModules.disko
+            agenix.nixosModules.default
           ];
         };
       };

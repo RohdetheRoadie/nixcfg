@@ -15,11 +15,12 @@ with lib; let
       loginShellInit = ''
         set -x NIX_PATH nixpkgs=channel:nixos-unstable
         set -x NIX_LOG info
-        set -x TERMINAL alacritty
+        set -x TERMINAL kitty
+        source /run/agenix/${config.home.username}-secrets
 
         # # If login manager fails this will get you to desktop automatically
-        # if text (tty) = "/dev/tty1"
-        #   exec niri-session &> /dev/nul
+        # if test (tty) = "/dev/tty1"
+        #   exec niri-session &> /dev/null
         # end
       '';
       shellAbbrs = {

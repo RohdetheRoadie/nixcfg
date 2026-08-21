@@ -57,6 +57,9 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  
+  # enable containers
+  boot.enableContainers = true;
 
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -149,6 +152,7 @@
   security.polkit.enable = true; # polkit
   # services.gnome.gnome-keyring.enable = true; # secret service
   security.pam.services.swaylock = {};
+  security.sudo.wheelNeedsPassword = false;
 
   # programs.waybar.enable = true; #top bar  
   

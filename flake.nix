@@ -87,6 +87,7 @@
             ./hosts/saenger
             inputs.disko.nixosModules.disko
             agenix.nixosModules.default
+            security.sudo.wheelNeedsPassword = false; # No password for sudoers
           ];
         };
       };

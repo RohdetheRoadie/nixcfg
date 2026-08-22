@@ -77,7 +77,7 @@
           specialArgs = {inherit inputs outputs;};
           modules = [
             ./hosts/saenger
-            inputs.disko.nixosModules.disko
+            # inputs.disko.nixosModules.disko
 #             agenix.nixosModules.default
           ];
         };

@@ -7,7 +7,7 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-      ./disko-config.nix
+      # ./disko-config.nix
       ./hardware-configuration.nix
       inputs.noctalia-greeter.nixosModules.default
     ];

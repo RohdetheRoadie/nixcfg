@@ -153,8 +153,6 @@
   # services.gnome.gnome-keyring.enable = true; # secret service
   security.pam.services.swaylock = {};
   security.sudo.wheelNeedsPassword = false;
-
-  security.sudo.wheelNeedsPassword = false;
   
   # programs.waybar.enable = true; #top bar  
   

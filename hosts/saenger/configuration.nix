@@ -2,11 +2,12 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, inputs, lib, ... }:
 
 {
   imports =
     [ # Include the results of the hardware scan.
+      # ./disko-config.nix
       ./hardware-configuration.nix
       inputs.noctalia-greeter.nixosModules.default
     ];
@@ -16,7 +17,10 @@
 
 
   # Enable NVIDIA graphics modules
-  hardware.graphics.enable = true;
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+  };
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia.open = false;
   # nvidia-drm.modeset=1 is required for some wayland compositors, e.g. sway
@@ -53,6 +57,9 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  
+  # enable containers
+  boot.enableContainers = true;
 
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -145,6 +152,7 @@
   security.polkit.enable = true; # polkit
   # services.gnome.gnome-keyring.enable = true; # secret service
   security.pam.services.swaylock = {};
+  security.sudo.wheelNeedsPassword = false;
 
   security.sudo.wheelNeedsPassword = false;
   
@@ -224,10 +232,12 @@
     xwayland-satellite
     nixos-container
 
+    dnsmasq #virtual networking
+    
     # From inputs
     inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
-
+  
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
@@ -329,6 +339,57 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
+  # Install virt-manager
+  virtualisation.libvirtd = {
+    enable = true;
+    qemu = {
+      package = pkgs.qemu_kvm;
+      runAsRoot = false;
+      verbatimConfig = ''
+        cgroup_device_acl = [
+          "/dev/null", "/dev/full", "/dev/zero",
+          "/dev/random", "/dev/urandom",
+          "/dev/ptmx", "/dev/kvm",
+          "/dev/dri/renderD128",
+          "/dev/dri/card0"
+        ]
+      '';
+      };
+  };
+  # #disabled to TS virt-manager
+  # systemd.services.libvirtd.environment = {
+  #   WLR_NO_HARDWARE_CURSORS = "1";
+  #   GBM_BACKEND = "nvidia-drm";
+  #   __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+  #   LD_LIBRARY_PATH = "/run/opengl-driver/lib:/run/opengl-driver-32/lib";
+  # };
+  # systemd.libvertd.path = [ pkgs.nvidia-vaapi-driver ];
+
+  # # Reserve 20% RAM for zram comment this out for VM testing
+  zramSwap = {
+    enable = true;
+    priority = 25;
+    memoryPercent = 10;
+  };
+  # # Reserve 40G Swap file for hibernation
+  # swapDevices = [ {
+  #   device = "/var/lib/swapfile";
+  #   size = 40 * 1024; # Size in MB
+  #   priority = 1;
+  # } ];
+  programs.virt-manager.enable = true;
+  networking.firewall.trustedInterfaces = [ "virbr0" ]; # Virtual network firewall exception
+  services.qemuGuest.enable = true;
+  services.spice-vdagentd.enable = true; # enable copy-paste between host/guest
+  # Needed for disko to work in vm
+  boot.initrd.availableKernelModules = [ 
+    "virtio_pci" 
+    "virtio_blk" 
+    "virtio_scsi" 
+    "virtio_balloon" 
+    "virtio_console" 
+    "virtio_net"
+  ];
 
   # QEMU Virtualization settings
   virtualisation.vmVariant = {
@@ -343,8 +404,10 @@
         "-device virtio-vga-gl"
         "-display gtk,gl=on,grab-on-hover=on"
       ];
+      swapDevices = lib.mkForce [];
     };
   };
+  users.defaultUserShell = pkgs.fish; # Makes fish default shell for all users
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

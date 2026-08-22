@@ -8,6 +8,7 @@
   ... 
 }: {
   imports = [ 
+    ./extra-services
     ./users 
     inputs.home-manager.nixosModules.home-manager
   ];
@@ -59,5 +60,5 @@
       ((lib.filterAttrs (_: lib.isType "flake")) inputs);
     nixPath = [ "/etc/nix/path" ];
   };
-  users.defaultUserShell = pkgs.fish;
+  #users.defaultUserShell = pkgs.fish; #Makes fish default shell.  Decide if all hosts need. Caused errors for B2
 }

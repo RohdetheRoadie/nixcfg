@@ -13,6 +13,7 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
+  # Commented out because we're using disko
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/d42f589a-e4a6-43eb-beca-2c30a31d97e5";
       fsType = "ext4";

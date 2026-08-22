@@ -233,7 +233,7 @@ in {
         };
       };
     };
-
+    
     home.packages = with pkgs; [
       grim
       hyprlock

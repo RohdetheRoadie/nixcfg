@@ -78,7 +78,7 @@
           modules = [
             ./hosts/saenger
             # inputs.disko.nixosModules.disko
-#             agenix.nixosModules.default
+            agenix.nixosModules.default
           ];
         };
         saenger-vm = nixpkgs.lib.nixosSystem {

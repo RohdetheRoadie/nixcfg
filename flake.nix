@@ -74,15 +74,21 @@
           modules = [ ./hosts/b2 ];
         };
         saenger = nixpkgs.lib.nixosSystem {
-          specialArgs = {inherit inputs outputs;};
+          specialArgs = {
+            inherit inputs outputs;
+            baseHardware = "iron";
+          };
           modules = [
             ./hosts/saenger
-            # inputs.disko.nixosModules.disko
+            inputs.disko.nixosModules.disko
             agenix.nixosModules.default
           ];
         };
         saenger-vm = nixpkgs.lib.nixosSystem {
-          specialArgs = {inherit inputs outputs;};
+          specialArgs = {
+            inherit inputs outputs;
+            baseHardware = "vm";
+          };
           modules = [
             ./hosts/saenger
             inputs.disko.nixosModules.disko

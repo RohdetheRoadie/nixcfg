@@ -15,7 +15,8 @@
             # };
             #Try this out to make bootable (VM didn't like the other way)
             ESP = {
-              size = "1G";
+              # size = "1G";
+              size = 1073741824;
               type = "EF00";
               content = {
                 type = "filesystem";
@@ -25,7 +26,8 @@
               };
             };
             root = {
-              size = "100%";
+              # size = "100%";
+              size = 480920062464;
               content = {
                 type = "filesystem";
                 format = "ext4";
@@ -33,7 +35,8 @@
               };
             };
             swap = {
-              size = "16.9G";
+              # size = "16.9G";
+              size = 18111926784;
               content = {
                 type = "swap";
                 randomEncryption = true; # secures swap on restart/disable if promlems

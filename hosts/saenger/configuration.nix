@@ -7,7 +7,7 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-      # ./disko-config.nix
+      ./disko-config.nix
       ./hardware-configuration.nix
       inputs.noctalia-greeter.nixosModules.default
     ];
@@ -252,12 +252,12 @@
     allowSFTP = true;
   };
 
-  # Laptop settings
-  services.logind.settings.Login = {
-    HandleLidSwitch = "suspend-then-hibernate";
-    HandleLidSwitchExternalPower = "lock";
-    HandleLidSwitchDocked = "ignore";
-  };
+  # # Laptop settings - in iron-config
+  # services.logind.settings.Login = {
+  #   HandleLidSwitch = "suspend-then-hibernate";
+  #   HandleLidSwitchExternalPower = "lock";
+  #   HandleLidSwitchDocked = "ignore";
+  # };
 
   # one of "ignore", "poweroff", "reboot", "halt", "kexec", "suspend", "hibernate", "hybrid-sleep", "suspend-then-hibernate", "lock"
 
@@ -289,18 +289,18 @@
     };
   };
 */
-  # Set max battery charge to 80%
-  systemd.services.clevo-battery-limit = {
-    description = "Set Clevo Battery Charge Limit";
-    after = [ "multi-user.target" ];
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-      # Sets charge limit to 80%. Change to 60, 70, 80, or 90.
-      ExecStart = "${pkgs.bash}/bin/bash -c 'echo 80 > /sys/class/power_supply/BAT0/charge_control_end_threshold || true'";
-    };
-  };
+  # # Set max battery charge to 80%
+  # systemd.services.clevo-battery-limit = {
+  #   description = "Set Clevo Battery Charge Limit";
+  #   after = [ "multi-user.target" ];
+  #   wantedBy = [ "multi-user.target" ];
+  #   serviceConfig = {
+  #     Type = "oneshot";
+  #     RemainAfterExit = true;
+  #     # Sets charge limit to 80%. Change to 60, 70, 80, or 90.
+  #     ExecStart = "${pkgs.bash}/bin/bash -c 'echo 80 > /sys/class/power_supply/BAT0/charge_control_end_threshold || true'";
+  #   };
+  # };
 
   # Hybrid Graphics
   
@@ -362,7 +362,7 @@
   # };
   # systemd.libvertd.path = [ pkgs.nvidia-vaapi-driver ];
 
-  # # Reserve 20% RAM for zram comment this out for VM testing
+  # Reserve 20% RAM for zram comment this out for VM testing
   zramSwap = {
     enable = true;
     priority = 25;
@@ -378,15 +378,15 @@
   networking.firewall.trustedInterfaces = [ "virbr0" ]; # Virtual network firewall exception
   services.qemuGuest.enable = true;
   services.spice-vdagentd.enable = true; # enable copy-paste between host/guest
-  # Needed for disko to work in vm
-  boot.initrd.availableKernelModules = [ 
-    "virtio_pci" 
-    "virtio_blk" 
-    "virtio_scsi" 
-    "virtio_balloon" 
-    "virtio_console" 
-    "virtio_net"
-  ];
+  # # Needed for disko to work in vm
+  # boot.initrd.availableKernelModules = [ 
+  #   "virtio_pci" 
+  #   "virtio_blk" 
+  #   "virtio_scsi" 
+  #   "virtio_balloon" 
+  #   "virtio_console" 
+  #   "virtio_net"
+  # ];
 
   # QEMU Virtualization settings
   virtualisation.vmVariant = {

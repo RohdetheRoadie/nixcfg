@@ -19,5 +19,22 @@
     };
   };
 
+  # If'd out because we're using disko for VM
+  # Get rid of config=section, it doesn't work
+  fileSystems."/" =
+    { device = "/dev/disk/by-uuid/d42f589a-e4a6-43eb-beca-2c30a31d97e5";
+      fsType = "ext4";
+    };
+
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/8F09-854A";
+      fsType = "vfat";
+      options = [ "fmask=0077" "dmask=0077" ];
+    };
+
+  swapDevices =
+    [ { device = "/dev/disk/by-uuid/c0b2bb90-1393-4070-9871-05b2f969e363"; }
+    ];
+
 
 }

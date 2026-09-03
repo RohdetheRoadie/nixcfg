@@ -2,15 +2,14 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, inputs, lib, ... }:
+{ baseHardware, config, pkgs, inputs, lib, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./disko-config.nix
-      ./hardware-configuration.nix
-      inputs.noctalia-greeter.nixosModules.default
-    ];
+  imports = [ # Include the results of the hardware scan.
+    # ./disko-config.nix
+    ./hardware-configuration.nix
+    inputs.noctalia-greeter.nixosModules.default
+  ] ++ (if baseHardware == "iron" then [ ./iron-config.nix ] else [./disko-config.nix]);
 
   # Enable experimental features nix-command and flakes
   nix.settings.experimental-features = "nix-command flakes";

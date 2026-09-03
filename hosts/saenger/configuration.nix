@@ -361,7 +361,7 @@
   # };
   # systemd.libvertd.path = [ pkgs.nvidia-vaapi-driver ];
 
-  # Reserve 20% RAM for zram comment this out for VM testing
+  # Reserve memoryPercent% RAM for zram comment this out for VM testing
   zramSwap = {
     enable = true;
     priority = 25;
